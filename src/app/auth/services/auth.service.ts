@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 
 import { API_BASE_URL } from 'src/app/config';
 import { LocalStorageEnum, User } from 'src/app/shared/interfaces';
@@ -8,6 +8,7 @@ import {
   AuthStatus,
   LoginCredentials,
   LoginResponse,
+  RenewTokenResponse,
 } from '../shared/interfaces';
 
 @Injectable({
@@ -34,6 +35,30 @@ export class AuthService {
       .pipe(
         map(({ user, token }) => this.setAuthentication(user, token)),
         catchError((error) => throwError(() => error.error.error))
+      );
+  }
+
+  checkAuthStatus(): Observable<User | null> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this._authStatus = AuthStatus.notAuthenticated;
+      // this.logout();
+      return of(null);
+    }
+
+    return this.http
+      .get<RenewTokenResponse>(`${this.baseUrl}/auth/renew-token`)
+      .pipe(
+        map((res) => {
+          this.setAuthentication(res.user, res.token);
+
+          return res.user;
+        }),
+        catchError(() => {
+          this._authStatus = AuthStatus.notAuthenticated;
+
+          return of(null);
+        })
       );
   }
 
