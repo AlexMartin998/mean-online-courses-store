@@ -33,7 +33,7 @@ export class AuthService {
       .post<LoginResponse>(`${this.baseUrl}/auth/login`, loginCredentials)
       .pipe(
         map(({ user, token }) => this.setAuthentication(user, token)),
-        catchError((error) => throwError(() => error.error.message))
+        catchError((error) => throwError(() => error.error.error))
       );
   }
 
