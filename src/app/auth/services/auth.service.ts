@@ -73,6 +73,12 @@ export class AuthService {
       );
   }
 
+  // services shuld not contains router logic
+  logout() {
+    this._currentUser = undefined;
+    localStorage.clear();
+  }
+
   private setAuthentication(user: User, token: string): boolean {
     this._currentUser = user;
     this._authStatus = AuthStatus.authenticated;
