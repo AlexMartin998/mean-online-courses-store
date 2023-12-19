@@ -50,10 +50,14 @@ export class AuthService {
   }
 
   checkAuthStatus(): Observable<User | null> {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(LocalStorageEnum.authJWTKey);
     if (!token) {
-      this._authStatus = AuthStatus.notAuthenticated;
-      // this.logout();
+      this.logout();
+      return of(null);
+    }
+    const tokenExpiration = JSON.parse(atob(token.split('.')[1])).exp;
+    if (Math.floor(new Date().getTime() / 1000) >= tokenExpiration) {
+      this.logout();
       return of(null);
     }
 
@@ -66,8 +70,7 @@ export class AuthService {
           return res.user;
         }),
         catchError(() => {
-          this._authStatus = AuthStatus.notAuthenticated;
-
+          this.logout();
           return of(null);
         })
       );
@@ -75,6 +78,7 @@ export class AuthService {
 
   // services shuld not contains router logic
   logout() {
+    this._authStatus = AuthStatus.notAuthenticated;
     this._currentUser = undefined;
     localStorage.clear();
   }
