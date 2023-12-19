@@ -1,11 +1,25 @@
 import { Component } from '@angular/core';
 
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { User } from '../../interfaces';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'shared-header',
   templateUrl: './header.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class HeaderComponent {
+  constructor(
+    private readonly authService: AuthService,
+    private router: Router
+  ) {}
 
+  get user(): User | undefined {
+    return this.authService.currentUser;
+  }
+
+  onGoToUrl(url: string) {
+    this.router.navigateByUrl(url);
+  }
 }

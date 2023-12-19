@@ -2,7 +2,7 @@
 
 // ()(window, document, jQuery);
 
-function HOMEINIT ($) {
+function homeInit ($) {
     'use strict';
 
     var eduJs = {
@@ -1015,7 +1015,7 @@ function HOMEINIT ($) {
 
 }
 
-HOMEINIT(jQuery);
+homeInit(jQuery);
 
 function magnigyPopup ($) {
     $('.popup-video').magnificPopup({
