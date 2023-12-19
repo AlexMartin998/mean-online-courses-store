@@ -3,3 +3,16 @@
 .pointer {
   cursor: pointer;
 }
+
+.mb-30px {
+  padding-bottom: 30px;
+}
+
+.relative {
+  position: relative !important;
+}
+
+.absolute-input-error {
+  position: absolute;
+  top: 48px;
+}
