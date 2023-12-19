@@ -38,21 +38,37 @@
           >
             <!-- ===== Inputs ===== -->
             <!-- --- Email --- -->
-            <div class="form-group">
-              <label>Username or email *</label>
-              <input type="email" formControlName="email" name="con_name" />
-              <span class="focus-border"></span>
+            <div class="relative">
+              <div class="form-group">
+                <label>Username or email *</label>
+                <input type="email" formControlName="email" name="con_name" />
+                <span class="focus-border"></span>
+              </div>
+              <span
+                *ngIf="isInvalidField('email', 'login')"
+                class="form-text text-danger absolute-input-error"
+              >
+                Invalid Email
+              </span>
             </div>
 
             <!-- --- Password --- -->
-            <div class="form-group">
-              <label>Password *</label>
-              <input
-                type="password"
-                formControlName="password"
-                name="con_email"
-              />
-              <span class="focus-border"></span>
+            <div class="relative">
+              <div class="form-group">
+                <label>Password *</label>
+                <input
+                  type="password"
+                  formControlName="password"
+                  name="con_email"
+                />
+                <span class="focus-border"></span>
+              </div>
+              <span
+                *ngIf="isInvalidField('password', 'login')"
+                class="form-text text-danger absolute-input-error"
+              >
+                Password should be at least 6 characters
+              </span>
             </div>
 
             <!-- ===== Remember me & lost password ===== -->

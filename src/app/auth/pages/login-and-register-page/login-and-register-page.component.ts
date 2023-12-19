@@ -14,7 +14,7 @@ export class LoginAndRegisterPageComponent {
   public loginForm: FormGroup = this.fb.group({
     // defaultValue, [sync validations], [async validations]
     email: [
-      'alex1@test.com',
+      'alex2@test.com',
       [Validators.required, Validators.pattern(ValidatorsService.emailPattern)],
     ],
     password: ['123123', [Validators.required, Validators.minLength(6)]],
@@ -81,8 +81,11 @@ export class LoginAndRegisterPageComponent {
     });
   }
 
-  isInvalidField(field: string) {
-    return this.validatorsService.isInvalidField(this.registerForm, field);
+  isInvalidField(field: string, form = 'register') {
+    return this.validatorsService.isInvalidField(
+      form === 'register' ? this.registerForm : this.loginForm,
+      field
+    );
   }
 
   private showWelcomeMessageAndRedirect() {
