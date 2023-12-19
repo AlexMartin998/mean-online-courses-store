@@ -69,7 +69,16 @@ export class LoginAndRegisterPageComponent {
 
   onRegister() {
     if (this.registerForm.invalid) return this.registerForm.markAllAsTouched();
-    console.log(this.registerForm.value);
+
+    this.authService.register(this.registerForm.value).subscribe({
+      next: () => {
+        this.showWelcomeMessageAndRedirect();
+      },
+      error: (errorMessage) => {
+        alert(errorMessage);
+        // this.showSnackbar(errorMessage);
+      },
+    });
   }
 
   isInvalidField(field: string) {
@@ -79,7 +88,7 @@ export class LoginAndRegisterPageComponent {
   private showWelcomeMessageAndRedirect() {
     const authUser = this.authService.currentUser;
 
-    // // with signals this navigation is not necessary
+    // // // with signals this navigation is not necessary
     // redirect based on user role
     // if (authUser?.role.name === 'ADMIN')
     //   return this.router.navigateByUrl('/admin/books');
