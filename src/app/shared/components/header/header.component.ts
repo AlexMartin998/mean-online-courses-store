@@ -22,4 +22,11 @@ export class HeaderComponent {
   onGoToUrl(url: string) {
     this.router.navigateByUrl(url);
   }
+
+  onLogout(): void {
+    this.authService.logout();
+
+    // with signals this navigation is not required
+    this.router.navigateByUrl('/');
+  }
 }
