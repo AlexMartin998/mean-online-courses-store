@@ -8,6 +8,8 @@ import {
   AuthStatus,
   LoginCredentials,
   LoginResponse,
+  RegisterData,
+  RegisterResponse,
   RenewTokenResponse,
 } from '../shared/interfaces';
 
@@ -32,6 +34,15 @@ export class AuthService {
   login(loginCredentials: LoginCredentials): Observable<boolean> {
     return this.http
       .post<LoginResponse>(`${this.baseUrl}/auth/login`, loginCredentials)
+      .pipe(
+        map(({ user, token }) => this.setAuthentication(user, token)),
+        catchError((error) => throwError(() => error.error.error))
+      );
+  }
+
+  register(registerData: RegisterData): Observable<boolean> {
+    return this.http
+      .post<RegisterResponse>(`${this.baseUrl}/auth/register`, registerData)
       .pipe(
         map(({ user, token }) => this.setAuthentication(user, token)),
         catchError((error) => throwError(() => error.error.error))
